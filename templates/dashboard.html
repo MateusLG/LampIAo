@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-content-grid">
+    <div class="input-area">
+        <div class="card">
+            <h1>O que está na sua mente?</h1>
+            <p>Escreva sua ideia, e a IA irá criar um título e gerar insights para você.</p>
+            <form action="{{ url_for('add_note') }}" method="POST">
+                <div class="form-group">
+                    <textarea name="content" rows="10" placeholder="Ex: Um aplicativo que usa a câmera para identificar plantas e sugerir cuidados..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-ai">Analisar e Salvar Faísca ✨</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="sidebar-notes">
+        <h2>Suas Faíscas</h2>
+        <div class="notes-list-sidebar">
+        {% if notes %}
+            {% for note in notes %}
+            <a href="{{ url_for('note_page', note_id=note.id) }}" class="sidebar-note-link">
+                <div class="sidebar-note-item">
+                    <div class="note-header">
+                        <strong>{{ note.title }}</strong>
+                        <form action="{{ url_for('delete_note', note_id=note.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');">
+                            <button type="submit" class="delete-btn">🗑️</button>
+                        </form>
+                    </div>
+                    <p>{{ note.original_content | truncate(80) }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <p>Suas ideias salvas aparecerão aqui.</p>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
