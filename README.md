@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="http://googleusercontent.com/image_generation_content/0" alt="Logo do LampIAo" width="200"/>
-</p>
-
 <h1 align="center">LampIAo ✨</h1>
 
 <p align="center">
