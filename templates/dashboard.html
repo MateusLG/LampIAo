@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block page_content %}
 <div class="main-content-grid">
     <div class="input-area">
         <div class="card">
@@ -10,13 +10,13 @@
                 <div class="form-group">
                     <textarea name="content" rows="10" placeholder="Ex: Um aplicativo que usa a câmera para identificar plantas e sugerir cuidados..." required></textarea>
                 </div>
-                <button type="submit" class="btn btn-ai">Analisar e Salvar Faísca ✨</button>
+                <button type="submit" class="btn btn-ai">Analisar e Salvar Ideia</button>
             </form>
         </div>
     </div>
 
     <div class="sidebar-notes">
-        <h2>Suas Faíscas</h2>
+        <h2>Suas Ideias</h2>
         <div class="notes-list-sidebar">
         {% if notes %}
             {% for note in notes %}

@@ -1,4 +1,4 @@
-<h1 align="center">LampIAo ✨</h1>
+<h1 align="center">LampIAo</h1>
 
 <p align="center">
   <strong>Um assistente de ideias que usa Inteligência Artificial para iluminar e estruturar seus pensamentos.</strong>

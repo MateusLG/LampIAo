@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block page_content %}
 <div class="form-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
     <h2>Login</h2>
     <form method="POST" action="{{ url_for('login') }}">
         <div class="form-group">

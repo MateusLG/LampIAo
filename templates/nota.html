@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block page_content %}
 <div class="note-container-detail">
     <a href="{{ url_for('dashboard') }}" class="back-link">&larr; Voltar ao Painel</a>
     
@@ -8,19 +8,19 @@
         <h1>{{ note.title }}</h1>
         <small>Criada em: {{ note.created_at.strftime('%d/%m/%Y %H:%M') }}</small>
         <div class="original-content">
-            <h4>Sua Faísca Original</h4>
+            <h4>Sua Ideia Original</h4>
             <pre>{{ note.original_content }}</pre>
         </div>
     </div>
 
     <div class="card ai-card">
-        <h2>✨ Laboratório de Ideias (IA)</h2>
+        <h2>Laboratório de Ideias (IA)</h2>
         {% if note.ai_suggestions %}
             <div class="ai-content">
                 {{ note.ai_suggestions | markdown | safe }}
             </div>
         {% else %}
-            <p>Os insights da IA para esta nota ainda não foram gerados.</p>
+            <p>Os insights da IA para esta ideia ainda não foram gerados.</p>
         {% endif %}
     </div>
 </div>
