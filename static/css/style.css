@@ -1,5 +1,5 @@
 :root {
-    --cor-fundo: #ffffff;
+    --cor-fundo: #f4f7f6;
     --cor-branco: #ffffff;
     --cor-texto-primario: #2d3748;
     --cor-texto-secundario: #718096;
@@ -299,6 +299,7 @@ pre {
     background-color: var(--cor-fundo);
     transform: scale(1.1);
 }
+
 
 /* --- TEMA ESCURO --- */
 
