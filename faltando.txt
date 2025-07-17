@@ -1,0 +1,3 @@
+mudanças no sistemas de login para ter maior segurança, como ter que ter senhas mais fortes com simbolos, letras maiusculas, minusculas e caracteres especiais.
+criar um email proprio para o site.
+tentar implementar um cloudfire para enviar emails de recuperação e um timer para não cair na caixa de spam.
