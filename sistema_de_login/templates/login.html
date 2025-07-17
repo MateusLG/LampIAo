@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Login</h2>
+    <form method="POST">
+        <div>
+            <label for="username">Nome de Usuário:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div>
+            <button type="submit">Entrar</button>
+        </div>
+    </form>
+    <p>Não tem uma conta? <a href="{{ url_for('register') }}">Registre-se</a></p>
+    <p><a href="{{ url_for('forgot_password') }}">Esqueceu sua senha?</a></p>
+{% endblock %}
