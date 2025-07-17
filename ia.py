@@ -2,7 +2,6 @@ import os
 import json
 import google.generativeai as genai
 
-# ... (o código de configuração da API continua o mesmo) ...
 try:
     genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 except Exception as e:
@@ -28,14 +27,12 @@ model = genai.GenerativeModel(
     safety_settings=safety_settings
 )
 
-
 def generate_insights_and_title(original_content):
     if not os.getenv("GEMINI_API_KEY"):
         return {"error": "A chave da API do Gemini não foi configurada."}
 
     raw_response_text = ""
     try:
-        # --- PROMPT REESTRUTURADO ---
         prompt = f"""
         # CONTEXTO
         Você é um assistente especialista em criatividade e análise de negócios. Sua função é atuar como um parceiro de brainstorming, recebendo uma ideia inicial e devolvendo uma análise estruturada para ajudar o usuário a desenvolvê-la.

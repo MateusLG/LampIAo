@@ -6,6 +6,15 @@
         <div class="card">
             <h1>O que está na sua mente?</h1>
             <p>Escreva sua ideia, e a IA irá criar um título e gerar insights para você.</p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
             <form action="{{ url_for('add_note') }}" method="POST">
                 <div class="form-group">
                     <textarea name="content" rows="10" placeholder="Ex: Um aplicativo que usa a câmera para identificar plantas e sugerir cuidados..." required></textarea>
@@ -25,7 +34,7 @@
                     <div class="note-header">
                         <strong>{{ note.title }}</strong>
                         <form action="{{ url_for('delete_note', note_id=note.id) }}" method="POST" onsubmit="return confirm('Tem certeza?');">
-                            <button type="submit" class="delete-btn">🗑️</button>
+                            <button type="submit" class="delete-btn">Apagar</button>
                         </form>
                     </div>
                     <p>{{ note.original_content | truncate(80) }}</p>

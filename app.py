@@ -1,4 +1,5 @@
 import os
+import re
 import json
 import markdown
 from dotenv import load_dotenv
@@ -6,9 +7,9 @@ from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from ia import generate_insights_and_title
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from ia import generate_insights_and_title
 
 load_dotenv()
 
@@ -18,7 +19,6 @@ mail = Mail()
 def create_app():
     app = Flask(__name__)
 
-    # Configurações do App
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -34,7 +34,9 @@ def create_app():
 
     @app.template_filter('markdown')
     def markdown_to_html(text):
-        return markdown.markdown(text)
+        if text:
+            return markdown.markdown(text)
+        return ''
 
     login_manager = LoginManager()
     login_manager.init_app(app)
@@ -47,8 +49,7 @@ def create_app():
         return User.query.get(int(user_id))
 
     s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-    
-    # --- ROTAS DE AUTENTICAÇÃO AVANÇADAS ---
+
     @app.route('/')
     def index():
         if current_user.is_authenticated:
@@ -78,10 +79,21 @@ def create_app():
             username = request.form.get('username')
             email = request.form.get('email')
             password = request.form.get('password')
+            
+            password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+            if not password_pattern.match(password):
+                flash(
+                    'A senha deve ter no mínimo 8 caracteres, uma letra maiúscula, '
+                    'uma minúscula, um número e um caractere especial (@$!%*?&).', 
+                    'danger'
+                )
+                return redirect(url_for('register'))
+
             user_exists = User.query.filter((User.username == username) | (User.email == email)).first()
             if user_exists:
                 flash('Nome de usuário ou e-mail já cadastrado.', 'warning')
                 return redirect(url_for('register'))
+                
             password_hash = generate_password_hash(password, method='pbkdf2:sha256')
             new_user = User(username=username, email=email, password_hash=password_hash)
             db.session.add(new_user)
@@ -118,14 +130,27 @@ def create_app():
     def reset_with_token(token):
         try:
             email = s.loads(token, salt='password-reset-salt', max_age=3600)
-        except SignatureExpired:
-            flash('O link de redefinição de senha expirou.', 'danger')
+        except (SignatureExpired, Exception):
+            flash('O link de redefinição de senha é inválido ou expirou.', 'danger')
             return redirect(url_for('forgot_password'))
-        except Exception:
-            flash('O link de redefinição de senha é inválido.', 'danger')
-            return redirect(url_for('forgot_password'))
+
         if request.method == 'POST':
             password = request.form.get('password')
+            password2 = request.form.get('password2')
+            if password != password2:
+                flash('As senhas não coincidem. Tente novamente.', 'danger')
+                return render_template('reset_password.html', token=token)
+            
+            password_pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$')
+            if not password_pattern.match(password):
+                flash(
+                    'A nova senha não atende aos requisitos de segurança. '
+                    'Ela deve ter no mínimo 8 caracteres, uma letra maiúscula, '
+                    'uma minúscula, um número e um caractere especial (@$!%*?&).', 
+                    'danger'
+                )
+                return render_template('reset_password.html', token=token)
+
             user = User.query.filter_by(email=email).first()
             if user:
                 user.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -134,7 +159,6 @@ def create_app():
                 return redirect(url_for('login'))
         return render_template('reset_password.html', token=token)
 
-    # --- ROTAS DO LAMPIAO ---
     @app.route('/dashboard')
     @login_required
     def dashboard():
@@ -171,26 +195,21 @@ def create_app():
     @login_required
     def delete_note(note_id):
         note_to_delete = Note.query.get_or_404(note_id)
-
         if note_to_delete.user_id != current_user.id:
             flash('Você não tem permissão para apagar esta ideia.', 'danger')
             return redirect(url_for('dashboard'))
-
         db.session.delete(note_to_delete)
         db.session.commit()
         flash('Ideia apagada.', 'info')
-        
         return redirect(url_for('dashboard'))
 
     @app.route('/note/<int:note_id>')
     @login_required
     def note_page(note_id):
         note = Note.query.get_or_404(note_id)
-
         if note.user_id != current_user.id:
             flash('Acesso não permitido.', 'danger')
             return redirect(url_for('dashboard'))
-            
         return render_template('nota.html', note=note)
 
     with app.app_context():

@@ -5,3 +5,5 @@ google-generativeai
 python-dotenv
 Markdown
 Flask-Mail
+werkzeug
+itsdangerous

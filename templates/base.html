@@ -19,11 +19,11 @@
             {% if current_user.is_authenticated %}
                 <span>{{ current_user.username }}</span>
                 <a href="{{ url_for('logout') }}" class="logout-link">Sair</a>
-        {% else %}
+            {% else %}
                 <a href="{{ url_for('login') }}" class="logout-link">Login</a>
                 <a href="{{ url_for('register') }}" class="logout-link">Registrar</a>
-        {% endif %}
-</div>
+            {% endif %}
+        </div>
     </header>
 
     <main class="main-content">
