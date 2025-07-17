@@ -8,7 +8,7 @@
 
 Inspirado no lampião que ilumina a escuridão do sertão e no poder da **I**nteligência **A**rtificial, o **LampIAo** é um projeto brasileiro que serve como um farol para suas ideias. Em vez de deixar uma faísca de criatividade se apagar, esta aplicação a captura e, com o auxílio da IA, a transforma em uma chama de potencial.
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
 * **Autenticação de Usuários:** Sistema completo de registro e login para garantir que as ideias de cada usuário sejam privadas e seguras.
 * **Criação de Ideias Simplificada:** Uma interface minimalista com foco em uma única caixa de texto. O usuário apenas "despeja" a ideia, sem se preocupar com títulos ou formatação.
@@ -17,7 +17,7 @@ Inspirado no lampião que ilumina a escuridão do sertão e no poder da **I**nte
 * **Dashboard Interativo:** Um painel com layout de duas colunas que permite a criação de novas ideias e a visualização da lista de ideias anteriores de forma simultânea e organizada.
 * **Página de Detalhes:** Cada ideia pode ser acessada em uma página própria para visualizar os insights gerados pela IA de forma clara e formatada.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Tecnologia | Propósito |
 | :--- | :--- |
