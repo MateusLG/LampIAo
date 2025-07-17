@@ -4,3 +4,4 @@ Flask-Login
 google-generativeai
 python-dotenv
 Markdown
+Flask-Mail
