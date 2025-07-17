@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h1>Painel de Controle</h1>
-    <p>Bem-vindo(a), {{ current_user.username }}!</p>
-    <p>Este é um conteúdo exclusivo para usuários logados.</p>
-    <a href="{{ url_for('logout') }}">Sair</a>
-{% endblock %}
