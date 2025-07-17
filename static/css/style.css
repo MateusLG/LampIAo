@@ -350,6 +350,12 @@ body.dark-theme textarea::placeholder {
 
 body.dark-theme input[type="text"],
 body.dark-theme input[type="password"],
+body.dark-theme input[type="email"],
+body.dark-theme textarea {
+    background-color: #1a202c;
+    color: var(--cor-texto-primario);
+    border: 1px solid var(--cor-borda);
+}
 body.dark-theme textarea {
     background-color: #1a202c;
     color: var(--cor-texto-primario);
