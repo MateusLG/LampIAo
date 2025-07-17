@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import requests
 import markdown
 from dotenv import load_dotenv
 from flask import Flask, render_template, redirect, url_for, flash, request
@@ -28,6 +29,8 @@ def create_app():
     app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
     app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+    app.config['RECAPTCHA_SITE_KEY'] = os.getenv('RECAPTCHA_SITE_KEY')
+    app.config['RECAPTCHA_SECRET_KEY'] = os.getenv('RECAPTCHA_SECRET_KEY')
 
     db.init_app(app)
     mail.init_app(app)
@@ -112,6 +115,17 @@ def create_app():
     @app.route('/forgot-password', methods=['GET', 'POST'])
     def forgot_password():
         if request.method == 'POST':
+            captcha_response = request.form.get('g-recaptcha-response')
+            secret_key = app.config['RECAPTCHA_SECRET_KEY']
+            verification_url = f"https://www.google.com/recaptcha/api/siteverify?secret={secret_key}&response={captcha_response}"
+
+            response = requests.post(verification_url)
+            response_data = response.json()
+
+            if not response_data.get('success'):
+                flash('Verificação reCAPTCHA falhou. Por favor, tente novamente.', 'danger')
+                return render_template('forgot_password.html')
+
             email = request.form.get('email')
             user = User.query.filter_by(email=email).first()
             if user:
@@ -124,6 +138,7 @@ def create_app():
                 return redirect(url_for('login'))
             else:
                 flash('Este e-mail não foi encontrado.', 'warning')
+
         return render_template('forgot_password.html')
 
     @app.route('/reset-password/<token>', methods=['GET', 'POST'])
