@@ -16,6 +16,7 @@
         </div>
         {% if current_user.is_authenticated %}
         <div class="user-info">
+            <button id="theme-toggle-btn" class="theme-toggle-btn">🌙</button>
             <span>{{ current_user.username }}</span>
             <a href="{{ url_for('logout') }}" class="logout-link">Sair</a>
         </div>
