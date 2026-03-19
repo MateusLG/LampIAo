@@ -20,7 +20,7 @@ Inspirado no lampião que ilumina a escuridão do sertão e no poder da **I**nte
 ## Tecnologias Utilizadas
 
 | Tecnologia | Propósito |
-| :--- | :--- |
+| :--- | :-- |
 | **Python** | Linguagem principal do backend |
 | **Flask** | Microframework para a estrutura da aplicação web |
 | **SQLAlchemy** | ORM para interação com o banco de dados |
